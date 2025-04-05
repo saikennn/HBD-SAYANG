@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday BUBUB❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Pacifico&display=swap');
+        
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff8fa3;
+            --dark: #2b2d42;
+            --light: #fff0f3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .title {
+            font-family: 'Pacifico', cursive;
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--dark);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        .photo-container {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            margin-bottom: 40px;
+            transform-style: preserve-3d;
+            opacity: 0;
+            transform: perspective(1000px) rotateY(180deg);
+        }
+        
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .photo-container:hover img {
+            transform: scale(1.05);
+        }
+        
+        .age-counter {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        
+        .message-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .message-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .signature {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-top: 30px;
+            text-align: right;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            height: 250px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        .action-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.4);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.6);
+        }
+        
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .action-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .floating-hearts {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            font-size: 1.5rem;
+            animation: float-up 4s linear forwards;
+            opacity: 0;
+        }
+        
+        .birthday-cake {
+            position: fixed;
+            font-size: 3rem;
+            z-index: 100;
+            opacity: 0;
+            animation: cake-fall 3s ease-in forwards;
+        }
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes cake-fall {
+            0% {
+                transform: translateY(-100px) rotate(-15deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(15deg);
+                opacity: 0;
+            }
+        }
+        
+        .photo-frame {
+            transition: transform 0.5s;
+        }
+        
+        .photo-frame:hover {
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--dark);
+            font-size: 0.9rem;
+            opacity: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .photo-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .message-box {
+                padding: 30px 20px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="title">Happy Birthday Bububb!</h1>
+            <p class="subtitle">Hari ini adalah hari spesial mu!</p>
+        </header>
+        
+        <div class="hero">
+            <div class="photo-container">
+                <!-- Ganti dengan foto pacar Anda -->
+                <img src="bubub.jpg" alt="My Love">
+            </div>
+            
+            <div class="age-counter" id="age-counter">
+                Selamat Ulang Tahun yang Ke <span id="age">0</span>th!
+            </div>
+        </div>
+        
+        <div class="message-box">
+            <p>Selamat Ulang Tahun sayang</p>
+            <p>Sebelum nya aku minta maaf udh cuekin kamu seharian hehehe:).</p>
+            <p>Aku mungkin ga pinter buat ngerangkai kata-kata tapi pada hari ini izinkan aku mengucapkan sepatah dua kata.</p>
+            <p>"Terima Kasih telah ada dengan segala kelembutan, tawa, dan caramu memperlakukanku. Di antara miliar manusia, aku bersyukur bisa mengenal jiwa seindah dirimu.".</p>
+            <p>Semoga tahun ini bisa membawamu kepada versi terbaik dari impianmu. akan aku doakan segalanya yang terbaik buat kamu, dan juga semoga menjadi pribadi yang lebih baik kedepannya aminnn. </p>
+            <p>Terakhir aku ucapkan Terima Kasih Udh menjadi Chapter terindah yang pernah ada dalam hidupku, sehat sehat ya bububb.!</p>
+            <p>Wopyuuuuuuuuuuu Putri delilah sari!</p>
+            <div class="signature">[Rahman Hidayat]</div>
+        </div>
+        
+        <div class="gallery">
+            <!-- Ganti dengan foto-foto kenangan -->
+            <div class="gallery-item">
+                <img src="1.jpg" alt="Memory 1">
+            </div>
+            <div class="gallery-item">
+                <img src="2.jpg" alt="Memory 2">
+            </div>
+            <div class="gallery-item">
+                <img src="3.jpg" alt="Memory 3">
+            </div>
+            <div class="gallery-item">
+                <img src="4.jpg" alt="Memory 4">
+            </div>
+        </div>
+        
+        <center>
+            <button class="action-btn" id="surpriseBtn">
+                <i class="fas fa-gift"></i> Coba pencet !
+            </button>
+        </center>
+        
+        <footer>
+            Mwahhh <i class="fas fa-heart" style="color: var(--primary);"></i> hehehe
+        </footer>
+    </div>
+    
+    <!-- Musik melodi ulang tahun -->
+    
+    <audio id="surpriseSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+    <audio id="birthdaySong" loop>
+        <source src="#" type="audio/mpeg">
+    </audio>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inisialisasi partikel
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ff4d6d"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ff8fa3",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // Hitung umur
+        function calculateAge(birthday) {
+            const birthDate = new Date(birthday);
+            const today = new Date();
+            
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+        
+        // Ganti dengan tanggal lahir pacar Anda
+        const birthday = '2003-04-06';
+        const age = calculateAge(birthday);
+        document.getElementById('age').textContent = age;
+        
+        // Animasi GSAP
+        gsap.registerPlugin(ScrollTrigger);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animasi elemen
+            gsap.to('.title', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+            
+            gsap.to('.subtitle', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                ease: 'power3.out'
+            });
+            
+            gsap.to('.photo-container', {
+                opacity: 1,
+                rotateY: 0,
+                duration: 1.5,
+                delay: 0.6,
+                ease: 'power3.out'
+            });
+            
+            gsap.to('.age-counter', {
+                opacity: 1,
+                scale: 1,
+                duration: 1,
+                delay: 1,
+                ease: 'elastic.out(1, 0.5)'
+            });
+            
+            gsap.to('.message-box', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 1.2,
+                scrollTrigger: {
+                    trigger: '.message-box',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                ease: 'power3.out'
+            });
+            
+            gsap.to('.gallery-item', {
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                delay: 1.5,
+                scrollTrigger: {
+                    trigger: '.gallery',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                ease: 'back.out(1.7)'
+            });
+            
+            gsap.to('.action-btn', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 2,
+                ease: 'power3.out'
+            });
+            
+            gsap.to('footer', {
+                opacity: 1,
+                duration: 1,
+                delay: 2.5,
+                ease: 'power3.out'
+            });
+        });
+        
+        // Efek surprise saat tombol diklik
+        document.getElementById('surpriseBtn').addEventListener('click', function() {
+            // Putar suara "Hore"
+            const horeSound = document.getElementById('surpriseSound');
+            horeSound.currentTime = 0; // Reset audio ke awal
+            horeSound.volume = 0.7; // Set volume
+            horeSound.play();
+
+            // Putar musik latar (opsional)
+            const audio = document.getElementById('birthdaySong');
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log('Autoplay prevented'));
+
+            // Animasi tombol
+            gsap.to(this, {
+                scale: 1.1,
+                duration: 0.3,
+                yoyo: true,
+                repeat: 1,
+                ease: 'power1.inOut'
+            });
+            
+            // Animasi confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff8fa3', '#ffb3c1', '#ffccd5']
+            });
+            
+            // Animasi kue ulang tahun jatuh
+            createFallingCakes();
+            
+            // Animasi hati melayang
+            createFloatingHearts();
+            
+            // Animasi elemen lain
+            gsap.to('.title', {
+                scale: 1.1,
+                color: '#ff4d6d',
+                duration: 0.5,
+                yoyo: true,
+                repeat: 1,
+                ease: 'elastic.out(1, 0.5)'
+            });
+            
+            gsap.to('.photo-container', {
+                rotationY: 360,
+                duration: 2,
+                ease: 'power3.out'
+            });
+            
+            gsap.to('.gallery-item', {
+                y: -20,
+                duration: 0.5,
+                stagger: 0.1,
+                yoyo: true,
+                repeat: 1,
+                ease: 'power1.inOut'
+            });
+        });
+        
+        // Buat kue ulang tahun jatuh
+        function createFallingCakes() {
+            for (let i = 0; i < 5; i++) {
+                const cake = document.createElement('div');
+                cake.className = 'birthday-cake';
+                cake.innerHTML = '🎂';
+                cake.style.left = Math.random() * 100 + 'vw';
+                cake.style.fontSize = (Math.random() * 3 + 2) + 'rem';
+                cake.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(cake);
+                
+                setTimeout(() => {
+                    cake.remove();
+                }, 3000);
+            }
+        }
+        
+        // Buat hati melayang
+        function createFloatingHearts() {
+            const colors = ['#ff4d6d', '#ff8fa3', '#ffb3c1', '#ffccd5'];
+            
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-hearts';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = window.innerHeight + 'px';
+                heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }
+        }
+        
+        // Scroll trigger untuk efek parallax
+        gsap.to('.photo-container', {
+            y: -50,
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+    </script>
+</body>
+</html>
